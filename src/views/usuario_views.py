@@ -7,7 +7,7 @@ from src import api
 from src.models.usuario_models import Usuario
 
 # post, get, put, delete
-# lidar co todos os usuários
+# lidar com todos os usuários
 class UsuarioList(Resource):
     # Método GET: lista todos os usuários cadastrados
     def get(self):
@@ -58,3 +58,37 @@ class UsuarioList(Resource):
 
 
 api.add_resource(UsuarioList, '/usuario')
+
+
+class UsuarioResource(Resource):
+    # Método GET: busca um usuário pelo id
+    def get(self, id_usuario):
+        usuario_encontrado = usuario_services.listar_usuario_id(id_usuario)  # Busca usuário pelo id
+        if not usuario_encontrado:
+            # Retorna mensagem se não encontrar o usuário
+            return make_response(jsonify({'message': 'usuario não encontrado'}), 400)
+        
+        schema = usuario_schemas.UsuarioSchema()  # Instancia o schema para serializar o usuário
+        # Retorna o usuário serializado em formato JSON
+        return make_response(jsonify(schema.dump(usuario_encontrado)), 200)
+    
+    # Método PUT: será implementado para editar usuário
+    def put(self, id_usuario):
+        ...
+
+    # Método DELETE: exclui um usuário pelo id
+    def delete(self, id_usuario):
+        usuario_encontrado = usuario_services.listar_usuario_id(id_usuario)  # Busca usuário pelo id
+        if not usuario_encontrado:
+            # Retorna mensagem se não encontrar o usuário
+            return make_response(jsonify({'message': 'usuario não encontrado'}), 400)
+        try:
+            usuario_services.excluir_usuario(id_usuario)  # Exclui o usuário do banco
+            # Retorna mensagem de sucesso
+            return make_response(jsonify({'message': 'usuario excluído com sucesso'}), 200)
+        except Exception as e:
+            # Retorna mensagem de erro e status 400 em caso de exceção
+            return make_response(jsonify({'message': f'Erro ao excluir usuário: {str(e)}'}), 400)
+
+
+api.add_resource(UsuarioResource, "usuario/<int.id_usuario")

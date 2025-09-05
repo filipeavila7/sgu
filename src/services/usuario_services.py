@@ -17,14 +17,44 @@ def cadastrar_usuario(usuario):
 def listar_usuario():
     return usuario_models.Usuario.query.all()  #faz uma busca e retorna todos os usuários do banco
 
-def listar_usuario_id():
-    ...
+def listar_usuario_id(id):
+    try:
+        #buscar usuario
+        usuario_encontrado = usuario_models.Usuario.query.get(id)
+        return usuario_encontrado
+    except Exception as e:
+        print(f"erro ao listar usuário por id {e}")
+        return None
 
-def excluir_usuario():
-    ...
+def excluir_usuario(id):
+    # Busca o usuário pelo id
+    usuario = usuario_models.Usuario.query.get(id)
+    if usuario:
+        # Se encontrar, exclui o usuário do banco
+        db.session.delete(usuario)
+        db.session.commit()
+        return True  # Retorna True se excluiu com sucesso
+    else:
+        return False  # Retorna False se não encontrou o usuário
 
-def editar_usuario():
-    ...
+def editar_usuario(id, novo_usuario):
+    # Busca o usuário pelo id
+    usuario = usuario_models.Usuario.query.get(id)
+    if usuario:
+        # Atualiza os dados do usuário
+        usuario.nome = novo_usuario.nome
+        usuario.email = novo_usuario.email
+        usuario.telefone = novo_usuario.telefone
+
+        # Se foi informada uma nova senha, atualiza e criptografa
+        if novo_usuario.senha:
+            usuario.gen_senha(novo_usuario.senha)
+        
+        db.session.commit()  # Salva as alterações no banco
+        return usuario  # Retorna o usuário atualizado
+    
+
+
 
 def listar_usuario_email(email):
     return usuario_models.Usuario.query.filter_by(email = email).first()
