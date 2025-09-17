@@ -7,6 +7,7 @@ from flask_restful import Api
 
 # Instanciar e criar objetos principais do Flask
 app = Flask(__name__)
+app.config.from_object("connection")
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 ma = Marshmallow(app)
@@ -22,3 +23,4 @@ def create_tables():
 
 from .models import agendamento_models, login_models, profissional_models, servico_models, usuario_models # Importa os modelos para garantir que o SQLAlchemy reconheça as tabelas
 
+from .views import usuario_views

@@ -1,7 +1,7 @@
 from src import db
 
 
-class Login(db.Model):
+class Login_model(db.Model):
     __tablename__ = "tb_login"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

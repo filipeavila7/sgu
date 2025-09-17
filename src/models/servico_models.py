@@ -1,12 +1,11 @@
 from src import db
 
-class Servico(db.Model):
+class Servico_model(db.Model):
     __tablename__ = "tb_servico"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     descricao = db.Column(db.String(120), nullable=False)
-    valor = db.Column(db.float, nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    horario_duracao = db.Column(db.Float, nullable=False)
 
-    def ___init__(self, descricao, valor):
-        self.descricao = descricao
-        self.valor = valor
+   

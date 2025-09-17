@@ -2,7 +2,7 @@ from src import db  # Importa a instância do banco de dados (SQLAlchemy)
 from passlib.hash import pbkdf2_sha256 as sha256  # Biblioteca para hash seguro de senhas
 
 # Modelo de usuário para o banco de dados
-class Usuario(db.Model):
+class Usuario_model(db.Model):
     __tablename__ = "tb_usuario"  # Nome da tabela no banco
 
     # Campos da tabela
@@ -12,12 +12,6 @@ class Usuario(db.Model):
     senha = db.Column(db.String(255), nullable=False)                 # Senha (armazenada como hash)
     telefone = db.Column(db.String(120), nullable=False)              # Telefone do usuário
 
-    #construtor da classe
-    def __init__(self, nome, email, telefone, senha):
-        self.nome = nome #esat vindo da view
-        self.nome = email
-        self.telefone = telefone
-        self.senha = senha
 
     # Gera o hash da senha e armazena no campo 'senha'
     def gen_senha(self, senha):

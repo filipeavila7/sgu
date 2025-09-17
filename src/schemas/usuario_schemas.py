@@ -6,7 +6,7 @@ from marshmallow import fields  # Importa tipos de campos para validação
 # Schema para serializar e validar dados do usuário
 class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = usuario_models.Usuario  # Modelo associado ao schema
+        model = usuario_models.Usuario_model  # Modelo associado ao schema
         fields = ('id', 'nome', 'email', 'senha', 'telefone')  # Campos que serão serializados
 
     # Campos obrigatórios para validação na criação de usuário, o id não é obrigatório

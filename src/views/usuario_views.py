@@ -4,7 +4,8 @@ from src.schemas import usuario_schemas
 from flask import request, jsonify, make_response
 from src.services import usuario_services
 from src import api
-from src.models.usuario_models import Usuario
+from src.models.usuario_models import Usuario_model
+from src.entities import usuario_entitie
 
 # post, get, put, delete
 # lidar com todos os usuários
@@ -38,7 +39,7 @@ class UsuarioList(Resource):
         
         try:
             # Cria um novo objeto Usuario com os dados validados
-            novo_usuario = Usuario(
+            novo_usuario = usuario_entitie.Usuario (
                 nome=dados['nome'],
                 email=dados['email'],
                 senha=dados['senha'],
@@ -91,4 +92,4 @@ class UsuarioResource(Resource):
             return make_response(jsonify({'message': f'Erro ao excluir usuário: {str(e)}'}), 400)
 
 
-api.add_resource(UsuarioResource, "usuario/<int.id_usuario")
+api.add_resource(UsuarioResource, "/usuario/<int:id_usuario>")
